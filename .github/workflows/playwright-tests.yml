@@ -9,7 +9,7 @@ on:
 jobs:
   critical-tests:
     name: Critical Pilot Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
 
@@ -73,7 +73,7 @@ jobs:
 
   full-test-suite:
     name: Full Test Suite
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: critical-tests
     if: github.event_name == 'pull_request'
     steps:
@@ -125,7 +125,7 @@ jobs:
 
   visual-regression:
     name: Visual Regression Tests
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     needs: critical-tests
     steps:
       - uses: actions/checkout@v4
