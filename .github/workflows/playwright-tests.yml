@@ -45,31 +45,21 @@ jobs:
 
       - name: Notify Telegram on failure
         if: failure()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          message: |
-            ❌ **ATOM-SG Critical Tests FAILED**
-            
-            Branch: ${{ github.ref }}
-            Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-            
-            Check the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=Markdown" \
+            -d "message_thread_id=54" \
+            -d "text=❌ *ATOM-SG Critical Tests FAILED*%0A%0ABranch: ${{ github.ref }}%0ACommit: ${{ github.sha }}%0AAuthor: ${{ github.actor }}%0A%0ACheck the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
       - name: Notify Telegram on success
         if: success()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          message: |
-            ✅ **ATOM-SG Critical Tests PASSED**
-            
-            Branch: ${{ github.ref }}
-            Commit: ${{ github.sha }}
-            All 24 critical tests passed!
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=Markdown" \
+            -d "message_thread_id=54" \
+            -d "text=✅ *ATOM-SG Critical Tests PASSED*%0A%0ABranch: ${{ github.ref }}%0ACommit: ${{ github.sha }}%0AAll 24 critical tests passed!"
 
   full-test-suite:
     name: Full Test Suite
@@ -111,17 +101,12 @@ jobs:
 
       - name: Notify Telegram on failure
         if: failure()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          message: |
-            ⚠️ **ATOM-SG Full Test Suite FAILED**
-            
-            Some UI/functional tests failed.
-            This won't block deployment but should be reviewed.
-            
-            Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=Markdown" \
+            -d "message_thread_id=54" \
+            -d "text=⚠️ *ATOM-SG Full Test Suite FAILED*%0A%0ASome UI/functional tests failed. This won't block deployment but should be reviewed.%0A%0ALogs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
   visual-regression:
     name: Visual Regression Tests
@@ -164,12 +149,9 @@ jobs:
 
       - name: Notify Telegram on visual changes
         if: failure()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          message: |
-            🎨 **ATOM-SG Visual Changes Detected**
-            
-            UI screenshots don't match baseline.
-            Review the changes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "parse_mode=Markdown" \
+            -d "message_thread_id=54" \
+            -d "text=🎨 *ATOM-SG Visual Changes Detected*%0A%0AUI screenshots don't match baseline. Review the changes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
