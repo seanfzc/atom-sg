@@ -1,0 +1,217 @@
+{
+  "timestamp": "2026-04-17T07:15:56.379524",
+  "base_url": "http://192.168.2.6",
+  "student_id": "test_student_20260417_071556",
+  "results": {
+    "Frontend Load": true,
+    "Static Assets": true,
+    "API Endpoints": true,
+    "Practice Session": false,
+    "Pathway Radar": true,
+    "Reflections": false,
+    "P0/P1 Fixes": false,
+    "Diagrams": true
+  },
+  "details": [
+    {
+      "test": "  Page title present",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.220287"
+    },
+    {
+      "test": "  Navigation bar present",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.220296"
+    },
+    {
+      "test": "  Dashboard section present",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.220297"
+    },
+    {
+      "test": "  Practice JavaScript loaded",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.220300"
+    },
+    {
+      "test": "  API JavaScript loaded",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.220301"
+    },
+    {
+      "test": "  /static/css/style.css \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.227043"
+    },
+    {
+      "test": "  /static/js/main.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.228457"
+    },
+    {
+      "test": "  /static/js/api.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.229657"
+    },
+    {
+      "test": "  /static/js/practice.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.235454"
+    },
+    {
+      "test": "  /static/js/navigation.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.239767"
+    },
+    {
+      "test": "  /static/js/gamification.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.241543"
+    },
+    {
+      "test": "  /static/js/dashboard.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.245361"
+    },
+    {
+      "test": "  /static/js/glossary.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.247887"
+    },
+    {
+      "test": "  /static/js/canvas.js \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.253985"
+    },
+    {
+      "test": "Health check \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.273834"
+    },
+    {
+      "test": "Problems list \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.280713"
+    },
+    {
+      "test": "Rubrics list \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.285049"
+    },
+    {
+      "test": "Renders list \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.288618"
+    },
+    {
+      "test": "Glossary terms \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.291191"
+    },
+    {
+      "test": "Milestones \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.295103"
+    },
+    {
+      "test": "Reflections \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.297380"
+    },
+    {
+      "test": "Pathway radar questions \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.302961"
+    },
+    {
+      "test": "Create practice session \u2192 200 (expected 201)",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.311244"
+    },
+    {
+      "test": "Cannot continue practice workflow without session",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.311268"
+    },
+    {
+      "test": "Submit pathway radar \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.324640"
+    },
+    {
+      "test": "Submit reflection \u2192 200 (expected 201)",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.330513"
+    },
+    {
+      "test": "  P0-7 Step-by-step scaffolding code",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.352633"
+    },
+    {
+      "test": "  P0-2 Gaming detection",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.352647"
+    },
+    {
+      "test": "  P0-3 'I'm Stuck' button",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.352650"
+    },
+    {
+      "test": "  P0-1 Articulation validation",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.352653"
+    },
+    {
+      "test": "  P0-1 Min 50 chars",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.352655"
+    },
+    {
+      "test": "  P0-5 Glossary button",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.352658"
+    },
+    {
+      "test": "  P1-1 Gamification",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.352661"
+    },
+    {
+      "test": "  P1-1 Streak tracking",
+      "success": false,
+      "timestamp": "2026-04-17T07:15:56.352664"
+    },
+    {
+      "test": "  G001-angle-diagram-v1.svg \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.358762"
+    },
+    {
+      "test": "  G017-cuboid-v1.svg \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.363131"
+    },
+    {
+      "test": "    G017 has unit labels (cm)",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.367147"
+    },
+    {
+      "test": "  G010-composite-shape-v1.svg \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.370714"
+    },
+    {
+      "test": "  G025-pie-chart-v1.svg \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.373488"
+    },
+    {
+      "test": "  G018-cuboid-v1.svg \u2192 200",
+      "success": true,
+      "timestamp": "2026-04-17T07:15:56.379486"
+    }
+  ]
+}

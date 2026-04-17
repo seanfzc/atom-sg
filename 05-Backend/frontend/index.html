@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOM-SG Pilot - P6 Mathematics Training</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script>
+        console.log('[DEBUG] Page loading, hash:', window.location.hash);
+        console.log('[DEBUG] Document readyState:', document.readyState);
+        // Log when scripts load
+        window.addEventListener('load', () => {
+            console.log('[DEBUG] Window load event fired');
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('[DEBUG] DOMContentLoaded fired');
+        });
+    </script>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-atom"></i>
+                <span>ATOM-SG Pilot</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" data-page="dashboard" class="active">Dashboard</a></li>
+                <li><a href="#" data-page="baseline">Baseline Test</a></li>
+                <li><a href="#" data-page="practice">Daily Practice</a></li>
+                <li><a href="#" data-page="pathway-radar">Pathway Radar</a></li>
+                <li><a href="#" data-page="transfer">Transfer Test</a></li>
+                <li><a href="#" data-page="reflections">Reflections</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <section id="page-dashboard" class="page active">
+                <h1><i class="fas fa-chart-line"></i> Progress Dashboard</h1>
+                
+                <!-- P0 Fix #14: Today's Mission Card -->
+                <div class="today-mission-card">
+                    <h3>📅 Today's Mission</h3>
+                    <p><strong>You're on:</strong> Week 2, Day 3</p>
+                    <div class="today-tasks">
+                        <div class="task-item">
+                            <span class="task-time">5 min</span>
+                            <span>Pathway Radar Warm-up</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-time">15 min</span>
+                            <span>3 Practice Problems</span>
+                        </div>
+                        <div class="task-item">
+                            <span class="task-time">10 min</span>
+                            <span>Review Progress</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="total-problems">0</div>
+                            <div class="stat-label">Problems Completed</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-bullseye"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="avg-score">0%</div>
+                            <div class="stat-label">Average Score</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-lightbulb"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="id-accuracy">0%</div>
+                            <div class="stat-label">Pathway Recognition</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-comment-dots"></i></div>
+                        <div class="stat-info">
+                            <div class="stat-value" id="articulation-level">0/3</div>
+                            <div class="stat-label">Explanation Quality</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-sections">
+                    <div class="section-card">
+                        <h2><i class="fas fa-flag-checkered"></i> Milestones</h2>
+                        <div id="milestones-list" class="milestones-list">
+                            <!-- Milestones loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <h2><i class="fas fa-calendar-week"></i> Weekly Progress</h2>
+                        <div id="weekly-progress" class="weekly-progress">
+                            <!-- Weekly progress loaded dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <h2><i class="fas fa-route"></i> Pathway Performance</h2>
+                        <div id="pathway-performance" class="pathway-performance">
+                            <!-- Pathway performance loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- P1-1: Gamification Section -->
+                <div class="gamification-section">
+                    <div class="streak-card">
+                        <h3>Your Streak 🔥</h3>
+                        <div class="streak-count">
+                            <span id="streak-days">0</span> days
+                        </div>
+                        <p>Keep it going! You've practiced for <span id="total-days">0</span> days total.</p>
+                    </div>
+                    
+                    <div class="achievements-card">
+                        <h3>Achievements 🏆</h3>
+                        <div id="achievements-list" class="achievements-list">
+                        </div>
+                        <div id="no-achievements" class="no-achievements">
+                            <p>Complete more problems to earn achievements!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- P1-1: Achievement notification modal -->
+                <div id="achievement-modal" class="modal hidden">
+                    <div class="modal-content achievement-modal">
+                        <div class="achievement-icon">🎉</div>
+                        <h2 id="achievement-title">Achievement Unlocked!</h2>
+                        <p id="achievement-description">You earned an achievement!</p>
+                        <button id="achievement-dismiss" class="btn btn-primary">Awesome!</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Baseline Test Page -->
+            <section id="page-baseline" class="page">
+                <h1><i class="fas fa-clipboard-list"></i> Baseline Test</h1>
+                
+                <div class="baseline-intro week-1-task">
+                    <p><strong>Week 1: Baseline Test - START HERE</strong></p>
+                    <p>Complete your first test to identify your starting point. This will help personalize your training for Weeks 2-4.</p>
+                    <a id="print-baseline" class="btn btn-primary pulse-animation" style="margin-top: 1rem; display: inline-block; text-decoration: none;" href="/api/v1/problems/pdf?week=1" target="_blank">
+                        <i class="fas fa-print"></i> START HERE →
+                    </a>
+                </div>
+
+                <div class="baseline-actions">
+                    <div class="upload-section">
+                        <h3><i class="fas fa-upload"></i> Upload Completed Test</h3>
+                        <form id="upload-baseline-form" class="upload-form">
+                            <input type="file" id="baseline-file" accept=".pdf,.png,.jpg" required>
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Scan
+                            </button>
+                        </form>
+                        <div id="baseline-upload-status" class="upload-status"></div>
+                    </div>
+                </div>
+
+                <div id="baseline-results" class="results-section hidden">
+                    <h2><i class="fas fa-chart-pie"></i> Gap Map Results</h2>
+                    <div id="gap-map" class="gap-map">
+                        <!-- Gap map loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Practice Page -->
+            <section id="page-practice" class="page">
+                <!-- P0 Fix #6: Floating help button -->
+                <button id="stuckButton" class="floating-help-btn" title="Get help when stuck">
+                    Need Help? 💡
+                </button>
+
+                <!-- Floating Glossary Button -->
+                <button id="glossaryButton" class="floating-glossary-btn" title="Open Glossary">
+                    <i class="fas fa-book"></i>
+                    <span>📚</span>
+                </button>
+                <h1><i class="fas fa-dumbbell"></i> Daily Practice</h1>
+                
+                <div class="practice-intro">
+                    <p><strong>Weeks 2-4: Daily 20-minute sessions</strong></p>
+                    <p>Start with Pathway Radar warm-up (5 min), then practice problems (15 min) with forced articulation.</p>
+                </div>
+
+                <div class="practice-controls">
+                    <button id="start-warmup" class="btn btn-warning">
+                        <i class="fas fa-bolt"></i> Start Pathway Radar Warm-up
+                    </button>
+                    <button id="start-session" class="btn btn-primary">
+                        <i class="fas fa-play"></i> Start Practice Session
+                    </button>
+                </div>
+
+                <!-- Pathway Radar Section -->
+                <div id="pathway-radar-section" class="radar-section hidden">
+                    <h2><i class="fas fa-crosshairs"></i> Pathway Radar Warm-up</h2>
+                    <div id="radar-timer" class="timer">05:00</div>
+                    <div id="radar-progress" class="progress-bar">
+                        <div id="radar-progress-fill" class="progress-fill"></div>
+                    </div>
+                    <div id="radar-questions" class="radar-questions">
+                        <!-- Questions loaded dynamically -->
+                    </div>
+                    <button id="submit-radar" class="btn btn-success hidden">
+                        <i class="fas fa-check"></i> Submit Answers
+                    </button>
+                    <div id="radar-feedback" class="feedback-section hidden">
+                        <!-- Feedback loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Practice Session Section -->
+                <div id="practice-session-section" class="session-section hidden">
+                    <div class="session-header">
+                        <h2><i class="fas fa-tasks"></i> Practice Session</h2>
+                        <div class="session-info">
+                            <span id="session-pathway"></span>
+                            <span id="session-progress"></span>
+                            <span id="practice-timer"></span>
+                            <span id="problem-count" class="problem-count"></span>
+                        </div>
+                        <div class="progress-bar session-progress">
+                            <div id="session-progress-fill" class="progress-fill"></div>
+                        </div>
+                    </div>
+
+                    <!-- Problem Display -->
+                    <div id="problem-display" class="problem-display">
+                        <div class="problem-header">
+                            <span id="problem-title"></span>
+                            <span id="problem-difficulty"></span>
+                        </div>
+                        <div id="problem-text" class="problem-text"></div>
+                        <div id="problem-diagrams" class="problem-diagrams">
+                            <!-- Diagrams loaded dynamically -->
+                        </div>
+                        
+                        <!-- Canvas for annotations -->
+                        <div class="canvas-container">
+                            <canvas id="annotation-canvas"></canvas>
+                            <div class="canvas-tools">
+                                <button class="tool-btn" data-tool="pen" title="Pen"><i class="fas fa-pen"></i></button>
+                                <button class="tool-btn" data-tool="line" title="Line"><i class="fas fa-minus"></i></button>
+                                <button class="tool-btn" data-tool="text" title="Add text annotation"><i class="fas fa-font"></i> Text</button>
+                                <button class="tool-btn" data-tool="eraser" title="Eraser"><i class="fas fa-eraser"></i></button>
+                                <button class="tool-btn" data-tool="clear" title="Clear All"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Forced Articulation Form -->
+                        <div class="articulation-form">
+                            <h3><i class="fas fa-brain"></i> Forced Articulation</h3>
+                            <p>Identify the pathway type and explain the equation shadow before solving.</p>
+                            
+                            <div class="form-group">
+                                <label for="pathway-type">
+                                    Pathway Type
+                                    <span class="tooltip-trigger" data-tooltip="The type of math problem. Examples: 'Before-After Change', 'Part-Whole', 'Data Interpretation'">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span>
+                                </label>
+                                <select id="pathway-type" required>
+                                    <option value="">Select pathway...</option>
+                                    <option value="before-after-change" title="Problems where something changes over time (e.g., 'Tom had 5 apples, then ate 2, how many left?')">Before-After Change</option>
+                                    <option value="part-whole-comparison" title="Problems comparing parts of a whole (e.g., 'There are 3 red marbles and 5 blue marbles, how many total?')">Part-Whole Comparison</option>
+                                    <option value="composite-shapes" title="Geometry problems involving combined shapes (e.g., 'Find the area of a shape made of rectangles')">Composite Shapes</option>
+                                    <option value="angles" title="Problems about measuring or calculating angles (e.g., 'Find the missing angle in a triangle')">Angles</option>
+                                    <option value="data-interpretation-red-herring" title="Problems with extra information that may not be needed (e.g., 'Read a chart and ignore irrelevant numbers')">Data Problems with Tricky Details</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="equation-shadow">
+                                    Explain how you would solve this problem (minimum 50 characters)
+                                    <span class="tooltip-trigger" data-tooltip="Describe the problem structure in your own words. Example: 'First, find the total by adding all quantities together. Then, subtract the amount sold to find the remainder.'">
+                                        <i class="fas fa-question-circle"></i>
+                                    </span>
+                                </label>
+                                <textarea id="equation-shadow" rows="3" placeholder="Example: First, find the total by adding all quantities together. Then, subtract the amount sold to find the remainder..." required></textarea>
+                                <p id="articulation-error" class="error-message hidden" style="color: #dc2626; margin-top: 0.5rem; font-size: 0.875rem;"></p>
+                                <div class="char-count"><span id="char-count">0/500</span></div>
+                                <a href="#" class="example-link" onclick="document.getElementById('articulation-example').classList.toggle('hidden'); return false;">See example</a>
+                                <div id="articulation-example" class="hidden" style="margin-top: 0.5rem; padding: 0.75rem; background: #f0f9ff; border-radius: 0.5rem; border-left: 4px solid #3b82f6;"><strong>Example:</strong> First, find the total by adding all quantities together. Then, subtract the amount sold to find the remainder. Finally, check if the answer makes sense.</div>
+                            </div>
+
+                            <button id="confirm-articulation" class="btn btn-primary" disabled>
+                                <i class="fas fa-check-circle"></i> Confirm & Solve
+                            </button>
+                        </div>
+
+                        <!-- Solution Section -->
+                        <div id="solution-section" class="solution-section hidden">
+                            <h3><i class="fas fa-calculator"></i> Solve the Problem</h3>
+                            <div class="form-group">
+                                <label for="student-answer">Your Answer:</label>
+                                <input type="number" id="student-answer" step="0.01" placeholder="Enter your numeric answer..." required>
+                            </div>
+                            <button id="submit-answer" class="btn btn-success">
+                                <i class="fas fa-paper-plane"></i> Submit Answer
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Triad Feedback -->
+                    <div id="triad-feedback" class="triad-feedback hidden">
+                        <h2><i class="fas fa-clipboard-check"></i> Feedback</h2>
+                        <div class="feedback-card" id="pathway-feedback">
+                            <div class="feedback-header">
+                                <span class="feedback-label">Pathway Identification</span>
+                                <span class="feedback-icon" id="pathway-icon"></span>
+                            </div>
+                            <p id="pathway-feedback-text"></p>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill" id="pathway-confidence"></div>
+                            </div>
+                        </div>
+
+                        <div class="feedback-card" id="articulation-feedback">
+                            <div class="feedback-header">
+                                <span class="feedback-label">Articulation</span>
+                                <span class="feedback-icon" id="articulation-icon"></span>
+                            </div>
+                            <div class="articulation-level">Level <span id="articulation-level-val"></span></div>
+                            <div class="articulation-comparison">
+                                <div class="student-articulation">
+                                    <h4><i class="fas fa-user"></i> Your Explanation:</h4>
+                                    <p id="articulation-feedback-text"></p>
+                                </div>
+                                <div class="model-articulation">
+                                    <h4><i class="fas fa-star"></i> Model Explanation:</h4>
+                                    <p id="model-articulation-text"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Articulation Level Info Box -->
+                        <div id="articulation-level-info" class="info-box hidden">
+                            <h4>Understanding Your Score</h4>
+                            <p><strong>Articulation Level 3 (Excellent):</strong> Your explanation clearly shows you understand the problem structure and how to solve it.</p>
+                            <p><strong>Articulation Level 2 (Good):</strong> Your explanation shows good understanding but could be more detailed or precise.</p>
+                            <p><strong>Articulation Level 1 (Basic):</strong> Your explanation is simple but correct. Try adding more details next time.</p>
+                            <p><strong>Articulation Level 0 (Missing):</strong> Your explanation is too brief or doesn't show understanding. Please describe the problem structure more clearly.</p>
+                        </div>
+
+                        <div class="feedback-card" id="solution-feedback">
+                            <div class="feedback-header">
+                                <span class="feedback-label">Solution</span>
+                                <span class="feedback-icon" id="solution-icon"></span>
+                            </div>
+                            <p id="solution-feedback-text"></p>
+                            <div class="score-comparison">
+                                <span>Your Answer: <strong id="student-answer-val"></strong></span>
+                                <span>Expected: <strong id="expected-answer-val"></strong></span>
+                            </div>
+                        </div>
+
+                        <div class="overall-feedback">
+                            <div class="overall-status" id="overall-status"></div>
+                            <h3 id="overall-title"></h3>
+                            <div id="recommended-next-steps">
+                                <h4><i class="fas fa-arrow-right"></i> Recommended Next Steps:</h4>
+                                <ul id="next-steps-list"></ul>
+                            </div>
+                        </div>
+
+                        <button id="next-problem" class="btn btn-primary">
+                            <i class="fas fa-forward"></i> Next Problem
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Pathway Radar Page -->
+            <section id="page-pathway-radar" class="page">
+                <h1><i class="fas fa-crosshairs"></i> Pathway Radar</h1>
+                <p>Quick 5-minute warm-up to build pathway recognition skills.</p>
+                
+                <div id="radar-chart" class="radar-chart">
+                    <!-- Radar chart visualization -->
+                </div>
+                
+                <div id="radar-history" class="radar-history">
+                    <h2><i class="fas fa-history"></i> History</h2>
+                    <!-- History loaded dynamically -->
+                </div>
+            </section>
+
+            <!-- Transfer Test Page -->
+            <section id="page-transfer" class="page">
+                <h1><i class="fas fa-flag-checkered"></i> Transfer Test</h1>
+                
+                <div class="transfer-intro">
+                    <p><strong>Week 5 Assessment</strong></p>
+                    <p>Complete 40 new unseen problems to measure transfer of recognition skills to novel problems.</p>
+                </div>
+
+                <div class="transfer-actions">
+                    <button id="print-transfer" class="btn btn-primary">
+                        <i class="fas fa-print"></i> Print Transfer Test
+                    </button>
+                    
+                    <div class="upload-section">
+                        <h3><i class="fas fa-upload"></i> Upload Completed Test</h3>
+                        <form id="upload-transfer-form" class="upload-form">
+                            <input type="file" id="transfer-file" accept=".pdf,.png,.jpg" required>
+                            <button type="submit" class="btn btn-secondary">
+                                <i class="fas fa-cloud-upload-alt"></i> Upload Scan
+                            </button>
+                        </form>
+                        <div id="transfer-upload-status" class="upload-status"></div>
+                    </div>
+                </div>
+
+                <div id="transfer-results" class="results-section hidden">
+                    <h2><i class="fas fa-chart-line"></i> Ramp-up Analytics</h2>
+                    <div id="ramp-up-metrics" class="ramp-up-metrics">
+                        <!-- Metrics loaded dynamically -->
+                    </div>
+                    
+                    <div id="success-criteria" class="success-criteria">
+                        <h3><i class="fas fa-trophy"></i> Success Criteria</h3>
+                        <!-- Success criteria loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reflections Page -->
+            <section id="page-reflections" class="page">
+                <h1><i class="fas fa-journal-whills"></i> Digital Reflection Sheets</h1>
+                
+                <div class="reflection-form">
+                    <h2><i class="fas fa-pen"></i> Submit Reflection</h2>
+                    <form id="reflection-form">
+                        <div class="form-group">
+                            <label for="reflection-week">Week:</label>
+                            <select id="reflection-week" required>
+                                <option value="1">Week 1</option>
+                                <option value="2">Week 2</option>
+                                <option value="3">Week 3</option>
+                                <option value="4">Week 4</option>
+                                <option value="5">Week 5</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reflection-pathway">Pathway:</label>
+                            <select id="reflection-pathway" required>
+                                <option value="before-after-change">Before-After Change</option>
+                                <option value="part-whole-comparison">Part-Whole Comparison</option>
+                                <option value="composite-shapes">Composite Shapes</option>
+                                <option value="angles">Angles</option>
+                                <option value="data-interpretation-red-herring">Data Interpretation (Red Herring)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reflection-text">What did you learn?</label>
+                            <textarea id="reflection-text" rows="5" placeholder="Reflect on your learning this week..." required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="reflection-confidence">Confidence Level:</label>
+                            <input type="range" id="reflection-confidence" min="1" max="5" value="3">
+                            <div class="confidence-labels">
+                                <span>Low</span>
+                                <span>High</span>
+                            </div>
+                            <div class="confidence-value"><span id="confidence-value">3</span>/5</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Struggles (select all that apply):</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" value="calculations"> Calculations</label>
+                                <label><input type="checkbox" value="identifying-pathways"> Identifying Pathways</label>
+                                <label><input type="checkbox" value="articulation"> Articulation</label>
+                                <label><input type="checkbox" value="time-management"> Time Management</label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Improvements (select all that apply):</label>
+                            <div class="checkbox-group">
+                                <label><input type="checkbox" value="better-accuracy"> Better Accuracy</label>
+                                <label><input type="checkbox" value="faster-solving"> Faster Solving</label>
+                                <label><input type="checkbox" value="clearer-articulation"> Clearer Articulation</label>
+                                <label><input type="checkbox" value="better-pathway-id"> Better Pathway ID</label>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Submit Reflection
+                        </button>
+                    </form>
+                </div>
+
+                <div class="reflections-history">
+                    <h2><i class="fas fa-history"></i> Previous Reflections</h2>
+                    <div id="reflections-list" class="reflections-list">
+                        <!-- Reflections loaded dynamically -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2026 ATOM-SG Pilot | P6 Mathematics Training</p>
+        </footer>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="help-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Need Help? 💡</h2>
+                <button id="close-help" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="help-section">
+                    <h3>Show Me a Hint</h3>
+                    <p>Get a helpful hint without revealing the full answer.</p>
+                    <button id="hint-btn" class="btn btn-secondary">Show Hint</button>
+                    <div id="hint-content" class="hint-text hidden">
+                    </div>
+                </div>
+                <div class="help-section">
+                    <h3>Check Glossary</h3>
+                    <p>Look up confusing words like "equation shadow" or "pathway type".</p>
+                    <button id="glossary-btn" class="btn btn-secondary">Open Glossary</button>
+                </div>
+                <div class="help-section">
+                    <h3>See an Example</h3>
+                    <p>View a similar problem with its solution steps.</p>
+                    <button id="example-btn" class="btn btn-secondary">Show Example</button>
+                    <div id="example-content" class="example-text hidden">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Glossary Modal -->
+    <div id="glossary-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Glossary 📚</h2>
+                <button id="close-glossary" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="glossary-search">
+                    <input type="text" id="glossary-search-input" placeholder="Search for a term..." class="glossary-search-input">
+                </div>
+                <div id="glossary-content" class="glossary-content">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/navigation.js"></script>
+    <script src="/static/js/gamification.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/baseline.js"></script>
+    <script src="/static/js/practice.js"></script>
+    <script src="/static/js/pathway-radar.js"></script>
+    <script src="/static/js/transfer.js"></script>
+    <script src="/static/js/reflections.js"></script>
+    <script src="/static/js/canvas.js"></script>
+    <script src="/static/js/glossary.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>

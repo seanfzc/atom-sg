@@ -1,0 +1,10 @@
+---
+subdomain: 
+pathwayType: 
+equationShadow: 
+articulationRubric:
+  level1: 
+  level2: 
+  level3: 
+commonMistakes: 
+---

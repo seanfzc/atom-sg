@@ -1,0 +1,175 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  critical-tests:
+    name: Critical Pilot Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd 05-Backend/playwright-tests
+          npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          cd 05-Backend/playwright-tests
+          npx playwright install chromium
+
+      - name: Run critical tests
+        run: |
+          cd 05-Backend/playwright-tests
+          npm run test:critical
+        env:
+          BASE_URL: http://192.168.2.6
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: critical-test-results
+          path: 05-Backend/playwright-tests/test-results/
+          retention-days: 30
+
+      - name: Notify Telegram on failure
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ❌ **ATOM-SG Critical Tests FAILED**
+            
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            Author: ${{ github.actor }}
+            
+            Check the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      - name: Notify Telegram on success
+        if: success()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ✅ **ATOM-SG Critical Tests PASSED**
+            
+            Branch: ${{ github.ref }}
+            Commit: ${{ github.sha }}
+            All 24 critical tests passed!
+
+  full-test-suite:
+    name: Full Test Suite
+    runs-on: ubuntu-latest
+    needs: critical-tests
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd 05-Backend/playwright-tests
+          npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          cd 05-Backend/playwright-tests
+          npx playwright install chromium firefox webkit
+
+      - name: Run full test suite
+        run: |
+          cd 05-Backend/playwright-tests
+          npm test
+        env:
+          BASE_URL: http://192.168.2.6
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-test-results
+          path: 05-Backend/playwright-tests/test-results/
+          retention-days: 14
+
+      - name: Notify Telegram on failure
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            ⚠️ **ATOM-SG Full Test Suite FAILED**
+            
+            Some UI/functional tests failed.
+            This won't block deployment but should be reviewed.
+            
+            Logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  visual-regression:
+    name: Visual Regression Tests
+    runs-on: ubuntu-latest
+    needs: critical-tests
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          cd 05-Backend/playwright-tests
+          npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          cd 05-Backend/playwright-tests
+          npx playwright install chromium
+
+      - name: Run visual regression tests
+        run: |
+          cd 05-Backend/playwright-tests
+          npx playwright test tests/visual-regression.spec.ts --project=chromium
+        env:
+          BASE_URL: http://192.168.2.6
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-screenshots
+          path: |
+            05-Backend/playwright-tests/test-results/
+            05-Backend/playwright-tests/screenshots/
+          retention-days: 14
+
+      - name: Notify Telegram on visual changes
+        if: failure()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            🎨 **ATOM-SG Visual Changes Detected**
+            
+            UI screenshots don't match baseline.
+            Review the changes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

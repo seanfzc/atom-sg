@@ -1,0 +1,28 @@
+{
+  "name": "atom-sg-playwright-tests",
+  "version": "1.0.0",
+  "description": "Playwright E2E tests for ATOM-SG MVP",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:chromium": "playwright test --project=chromium",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:critical": "playwright test tests/critical-pilot-actual.spec.ts",
+    "test:critical:ui": "playwright test tests/critical-pilot-actual.spec.ts --ui",
+    "test:live": "SKIP_LIVE_API=false playwright test",
+    "test:mock": "MOCK_API=true playwright test",
+    "test:visual": "playwright test tests/visual-regression.spec.ts --project=chromium",
+    "test:visual:update": "UPDATE_SNAPSHOTS=true playwright test tests/visual-regression.spec.ts --project=chromium --update-snapshots",
+    "report": "playwright show-report",
+    "install:browsers": "playwright install"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.0"
+  },
+  "keywords": ["playwright", "e2e", "testing", "atom-sg"],
+  "author": "ATOM-SG Team",
+  "license": "MIT"
+}
