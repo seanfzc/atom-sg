@@ -333,7 +333,7 @@ PROBLEMS_DB: Dict[str, Dict] = {
         "track": "word-problems",
         "pathway": "before-after-change",
         "difficulty": "medium",
-        "questionText": "A shop sold 3/5 of its pens on Monday and 1/4 of the remainder on Tuesday. If the shop had 150 pens left on Wednesday, how many pens did the shop have originally?",
+        "questionText": "A shop sold 3/5 of its pens on Monday and 1/4 of the remainder on Tuesday. If the shop still had 150 pens on Wednesday, how many pens did the shop have originally?",
         "diagrams": [
             {
                 "type": "bar-model",
