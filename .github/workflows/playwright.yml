@@ -6,6 +6,17 @@ on:
   pull_request:
     branches: [main, master]
 
+# CRITICAL FOR 8GB MAC NEO: 
+# This stops old runs if you push code again, preventing RAM exhaustion.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# This removes the need to write "cd 05-Backend/playwright-tests" in every step.
+defaults:
+  run:
+    working-directory: 05-Backend/playwright-tests
+
 jobs:
   critical-tests:
     name: Critical Pilot Tests
@@ -17,21 +28,17 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 05-Backend/playwright-tests/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd 05-Backend/playwright-tests
-          npm ci
+        run: npm ci
 
       - name: Install Playwright browsers
-        run: |
-          cd 05-Backend/playwright-tests
-          npx playwright install chromium
+        run: npx playwright install chromium
 
       - name: Run critical tests
-        run: |
-          cd 05-Backend/playwright-tests
-          npm run test:critical
+        run: npm run test:critical
         env:
           BASE_URL: http://192.168.2.6
 
@@ -43,23 +50,25 @@ jobs:
           path: 05-Backend/playwright-tests/test-results/
           retention-days: 30
 
-      - name: Notify Telegram on failure
+      - name: Notify Telegram on Failure
         if: failure()
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
             -d "parse_mode=Markdown" \
             -d "message_thread_id=54" \
-            -d "text=❌ *ATOM-SG Critical Tests FAILED*%0A%0ABranch: ${{ github.ref }}%0ACommit: ${{ github.sha }}%0AAuthor: ${{ github.actor }}%0A%0ACheck the logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            -d "text=❌ *ATOM-SG Critical Tests FAILED*%0A%0ABranch: \`${{ github.ref_name }}\` %0AAuthor: ${{ github.actor }}%0A%0A[View Logs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})")
+          echo "Telegram API response: $RESPONSE"
 
-      - name: Notify Telegram on success
+      - name: Notify Telegram on Success
         if: success()
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
             -d "parse_mode=Markdown" \
             -d "message_thread_id=54" \
-            -d "text=✅ *ATOM-SG Critical Tests PASSED*%0A%0ABranch: ${{ github.ref }}%0ACommit: ${{ github.sha }}%0AAll 24 critical tests passed!"
+            -d "text=✅ *ATOM-SG Critical Tests PASSED*%0A%0ABranch: \`${{ github.ref_name }}\` %0AAll 24 critical tests passed!")
+          echo "Telegram API response: $RESPONSE"
 
   full-test-suite:
     name: Full Test Suite
@@ -68,26 +77,21 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 05-Backend/playwright-tests/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd 05-Backend/playwright-tests
-          npm ci
+        run: npm ci
 
       - name: Install Playwright browsers
-        run: |
-          cd 05-Backend/playwright-tests
-          npx playwright install chromium firefox webkit
+        run: npx playwright install chromium firefox webkit
 
       - name: Run full test suite
-        run: |
-          cd 05-Backend/playwright-tests
-          npm test
+        run: npm test
         env:
           BASE_URL: http://192.168.2.6
 
@@ -102,11 +106,12 @@ jobs:
       - name: Notify Telegram on failure
         if: failure()
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
             -d "parse_mode=Markdown" \
             -d "message_thread_id=54" \
-            -d "text=⚠️ *ATOM-SG Full Test Suite FAILED*%0A%0ASome UI/functional tests failed. This won't block deployment but should be reviewed.%0A%0ALogs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            -d "text=⚠️ *ATOM-SG Full Test Suite FAILED*%0A%0ASome UI/functional tests failed. Review logs: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          echo "Telegram API response: $RESPONSE"
 
   visual-regression:
     name: Visual Regression Tests
@@ -114,26 +119,21 @@ jobs:
     needs: critical-tests
     steps:
       - uses: actions/checkout@v4
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 05-Backend/playwright-tests/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd 05-Backend/playwright-tests
-          npm ci
+        run: npm ci
 
       - name: Install Playwright browsers
-        run: |
-          cd 05-Backend/playwright-tests
-          npx playwright install chromium
+        run: npx playwright install chromium
 
       - name: Run visual regression tests
-        run: |
-          cd 05-Backend/playwright-tests
-          npx playwright test tests/visual-regression.spec.ts --project=chromium
+        run: npx playwright test tests/visual-regression.spec.ts --project=chromium
         env:
           BASE_URL: http://192.168.2.6
 
@@ -150,8 +150,9 @@ jobs:
       - name: Notify Telegram on visual changes
         if: failure()
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
+          RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
             -d "parse_mode=Markdown" \
             -d "message_thread_id=54" \
-            -d "text=🎨 *ATOM-SG Visual Changes Detected*%0A%0AUI screenshots don't match baseline. Review the changes: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            -d "text=🎨 *ATOM-SG Visual Changes Detected*%0A%0AUI screenshots do not match baseline. Review: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}")
+          echo "Telegram API response: $RESPONSE"
