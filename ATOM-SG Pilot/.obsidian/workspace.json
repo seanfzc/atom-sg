@@ -186,6 +186,13 @@
   },
   "active": "71740c306ccb255f",
   "lastOpenFiles": [
+    "01-Projects/Stage0_Q10_Audit.md",
+    "05-Backend/artifacts/renders/q10_reconstruction.png",
+    "05-Backend/rendering/render_q10.py",
+    "05-Backend/artifacts/renders/q10_reconstruction.yaml",
+    "00-Templates/Process/VISION_AUDIT_TEMPLATE.md",
+    "00-Templates/Process/MANIFEST_TEMPLATE.md",
+    "00-Templates/Process",
     "00-Archive/openclaw-ops-stale/tests/fixtures/session-with-secrets.jsonl",
     "00-Archive/openclaw-ops-stale/tests/fixtures/session-stuck.jsonl",
     "00-Archive/openclaw-ops-stale/tests/fixtures/session-retry-loop.jsonl",
@@ -193,10 +200,6 @@
     "00-Archive/openclaw-ops-stale/tests/fixtures/session-corrupted.jsonl",
     "00-Archive/openclaw-ops-stale/tests/run.sh",
     "00-Archive/openclaw-ops-stale/tests/fixtures",
-    "00-Archive/openclaw-ops-stale/templates/health-targets.conf.example",
-    "00-Archive/openclaw-ops-stale/scripts/watchdog.sh",
-    "00-Archive/openclaw-ops-stale/scripts/watchdog-uninstall.sh",
-    "00-Archive/openclaw-ops-stale/scripts/watchdog-install.sh",
     "00-Archive/openclaw-ops-stale/docs/troubleshooting.md",
     "00-Archive/openclaw-ops-stale/docs/security-guide.md",
     "00-Archive/openclaw-ops-stale/docs/cli-reference.md",
@@ -221,8 +224,6 @@
     "08-Validation/P6_Rosyth_Q5.md",
     "08-Validation/P6_Rosyth_Q4.md",
     "08-Validation/P6_Rosyth_Q3.md",
-    "08-Validation/P6_Rosyth_Q2.md",
-    "08-Validation/P6_Rosyth_Q1.md",
     "00-Archive/Stage1-Deconstruction-Old/outputs/Q7_diagram.png",
     "00-Archive/Stage1-Deconstruction-Old/outputs/Q13_diagram.png",
     "00-Archive/Stage1-Deconstruction-Old/outputs/Q11_diagram.png",
@@ -230,7 +231,6 @@
     "Stage1-Deconstruction/outputs/Q13_diagram.png",
     "Stage1-Deconstruction/outputs/Q11_diagram.png",
     "Stage1-Deconstruction/outputs/Q10_diagram.png",
-    "Stage1-Deconstruction/outputs/Q7_diagram.png",
-    "00-Original-Exam-Papers/Stage0-P0/physical_page_33.png"
+    "Stage1-Deconstruction/outputs/Q7_diagram.png"
   ]
 }
