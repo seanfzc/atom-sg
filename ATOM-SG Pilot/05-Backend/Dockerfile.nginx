@@ -1,0 +1,25 @@
+# Nginx Dockerfile for serving ATOM-SG MVP Frontend
+FROM nginx:alpine
+
+# Remove default nginx static files
+RUN rm -rf /usr/share/nginx/html/*
+
+# Copy frontend files
+COPY frontend/ /usr/share/nginx/html/
+
+# Fix permissions for nginx user (nobody in alpine)
+RUN chmod -R 644 /usr/share/nginx/html/index.html && \
+    chmod -R 755 /usr/share/nginx/html/static && \
+    find /usr/share/nginx/html/static -type f -exec chmod 644 {} \;
+
+# Copy nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Create directory for logs
+RUN mkdir -p /var/log/nginx
+
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,53 @@
+[
+  {
+    "image": "acs_pdf_page010.png",
+    "squares": 0,
+    "rectangles": 1,
+    "square_details": [],
+    "is_q12_candidate": false
+  },
+  {
+    "image": "acs_pdf_page011.png",
+    "squares": 0,
+    "rectangles": 3,
+    "square_details": [],
+    "is_q12_candidate": false
+  },
+  {
+    "image": "acs_pdf_page012.png",
+    "squares": 0,
+    "rectangles": 4,
+    "square_details": [],
+    "is_q12_candidate": false
+  },
+  {
+    "image": "acs_pdf_page013.png",
+    "squares": 0,
+    "rectangles": 7,
+    "square_details": [],
+    "is_q12_candidate": false
+  },
+  {
+    "image": "acs_pdf_page014.png",
+    "squares": 1,
+    "rectangles": 1,
+    "square_details": [
+      {
+        "x": 531,
+        "y": 1078,
+        "width": 722,
+        "height": 786,
+        "aspect_ratio": 0.9185750636132316,
+        "area": 564096
+      }
+    ],
+    "is_q12_candidate": false
+  },
+  {
+    "image": "acs_pdf_page015.png",
+    "squares": 0,
+    "rectangles": 6,
+    "square_details": [],
+    "is_q12_candidate": false
+  }
+]

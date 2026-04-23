@@ -1,0 +1,34 @@
+{
+  "batch_name": "Batch 02 — Rosyth CA1 Algebra Q5–Q10",
+  "status": "READY — AWAITING CEO COMMAND",
+  "priority": "STANDARD — All threads verified, spine complete",
+  "source_pdf": "Rosyth_2026_P6_Math_CA1_Algebra.pdf",
+  "target_questions": "Q5–Q10",
+  "pipeline": "DUAL-PASS NEO PIPELINE",
+  "radar_active": [
+    "CONSTANT DIFFERENCE",
+    "INTERNAL TRANSFER",
+    "VALUE OF UNITS",
+    "REMAINDER PIVOT",
+    "INCLUSIVE INTERVAL",
+    "FRACTIONAL TRANSFER"
+  ],
+  "pre_extraction_checklist": {
+    "rule_1_verb_test": "Ensure every bridge has an ACTION verb",
+    "rule_2_cls": "Max CLS ≤ 1.5 between adjacent nodes",
+    "rule_3_know_do_abstract": "All three stages present per thread",
+    "rule_4_pre_flight": "Auditor sign-off before Boss extraction",
+    "rule_5_forge_before_extract": "Map thread BEFORE extracting Boss"
+  },
+  "thread_readiness": {
+    "A": "✅ Complete — ready for new Boss nodes in Ratio-Scaling family",
+    "B": "✅ Complete — ready for new Boss nodes in Offset/Substitution family",
+    "C": "✅ Complete — ready for new Boss nodes in Equation-Solving family",
+    "D": "✅ Complete — ready for new Boss nodes in Remainder Pivot family"
+  },
+  "economist_model_routing": {
+    "mode_a_fluency": "Gemini 3 Flash",
+    "mode_b_heuristic": "Claude-Sonnet or DeepSeek-R1"
+  },
+  "notes": "Remainder Pivot linguistic triggers activated. 'Of the remaining' vs 'Of the total' trap is live in linguistic_triggers.md."
+}

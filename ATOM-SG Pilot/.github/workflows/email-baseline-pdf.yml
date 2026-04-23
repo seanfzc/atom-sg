@@ -1,0 +1,48 @@
+name: Email Baseline Test PDF
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '05-Backend/artifacts/renders/ATOM-SG_Baseline_Test_40_Questions.pdf'
+
+jobs:
+  email-pdf:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Send PDF via Email
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "ATOM-SG Baseline Test PDF - 40 Questions"
+          to: seanfzc@gmail.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          body: |
+            Hello Sean,
+
+            The complete ATOM-SG Week 1 Baseline Test PDF is attached.
+
+            Test Details:
+            - Total Questions: 40
+            - Word Problems: 20 (Before-After, Part-Whole, Cross-Thread)
+            - Geometry: 12 (Angles, Area, Volume, Properties)
+            - Data Interpretation: 8 (Bar Graphs, Line Graphs, Pie Charts)
+            - Duration: 50 minutes
+            - Calculator: Not allowed
+
+            File: ATOM-SG_Baseline_Test_40_Questions.pdf
+
+            Generated: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+
+            Best regards,
+            ATOM-SG Pilot System
+          attachments: 05-Backend/artifacts/renders/ATOM-SG_Baseline_Test_40_Questions.pdf
+
+      - name: Confirm email sent
+        run: echo "Baseline test PDF emailed to seanfzc@gmail.com"

@@ -1,0 +1,57 @@
+name: Frontend Auto Fix
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  autofix:
+    name: Lint/Format Auto Fix
+    runs-on: self-hosted
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    defaults:
+      run:
+        working-directory: 05-Backend/playwright-tests
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: 05-Backend/playwright-tests/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run safe auto-fix scripts if present
+        shell: bash
+        run: |
+          set -euo pipefail
+          HAS_LINT_FIX=$(node -e "const p=require('./package.json'); console.log(p.scripts && p.scripts['lint:fix'] ? 'yes':'no')")
+          HAS_FORMAT_WRITE=$(node -e "const p=require('./package.json'); console.log(p.scripts && p.scripts['format:write'] ? 'yes':'no')")
+          HAS_FORMAT=$(node -e "const p=require('./package.json'); console.log(p.scripts && p.scripts['format'] ? 'yes':'no')")
+
+          if [ "$HAS_LINT_FIX" = "yes" ]; then npm run lint:fix; fi
+          if [ "$HAS_FORMAT_WRITE" = "yes" ]; then npm run format:write; fi
+          if [ "$HAS_FORMAT_WRITE" = "no" ] && [ "$HAS_FORMAT" = "yes" ]; then npm run format; fi
+
+      - name: Commit and push auto-fixes
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "No auto-fixes to commit."
+            exit 0
+          fi
+
+          git add .
+          git commit -m "chore(ci): apply automated frontend fixes"
+          git push

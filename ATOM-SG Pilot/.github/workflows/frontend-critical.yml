@@ -1,0 +1,51 @@
+name: Frontend Critical
+
+on:
+  pull_request:
+    branches: [main, master]
+  push:
+    branches: [main, master]
+
+concurrency:
+  group: frontend-critical-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  critical:
+    name: Critical Pilot Tests
+    runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: 05-Backend/playwright-tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: 05-Backend/playwright-tests/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browser
+        run: npx playwright install chromium
+
+      - name: Run critical tests
+        run: npm run test:critical -- --project=chromium
+        env:
+          BASE_URL: http://192.168.2.6
+          CI: true
+
+      - name: Upload critical artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-critical-artifacts
+          path: |
+            05-Backend/playwright-tests/test-results/
+            05-Backend/playwright-tests/playwright-report/
+          retention-days: 30

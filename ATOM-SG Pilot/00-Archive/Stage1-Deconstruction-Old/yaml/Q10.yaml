@@ -1,0 +1,48 @@
+# Q10 Data from ACS Junior 2025 Page 26
+# Redone from scratch following Diagram Reconstruction Framework
+
+problem:
+  id: "Q10"
+  name: "T-shirt Line Graph"
+  source: "ACS Junior 2025 Paper 2, Page 26"
+  question_text: |
+    A shop offered 120 T-shirts at a 20% discount during a 7-day sale. The line graph shows the number of T-shirts left unsold at the end of each day.
+    (a) On which day was the most number of T-shirts sold?
+    (b) What percentage of 120 T-shirts were sold in the first 5 days of the sale? Correct your answer to the nearest percent.
+    (c) The shop collected $192 on Day 3 of the sale. What was the price of each T-shirt before the discount?
+  answer_key:
+    a: "Day 4"
+    b: "83%"
+    c: "$15"
+  pathway: "Data Interpretation"
+
+# DIAGRAM DATA
+diagram_data:
+  type: "line_graph"
+  axes:
+    x: { label: "Days", ticks: ["Start", "Day 1", "Day 2", "Day 3", "Day 4", "Day 5", "Day 6", "Day 7"] }
+    y: { label: "Number of T-shirts left unsold", max: 120, division: 20, ticks_per_division: 5 }
+  gridlines: { horizontal: true, vertical: false }
+  data:
+    - { x: "Start", y: 120 }
+    - { x: "Day 1", y: 96 }
+    - { x: "Day 2", y: 76 }
+    - { x: "Day 3", y: 60 }
+    - { x: "Day 4", y: 32 }
+    - { x: "Day 5", y: 20 }
+    - { x: "Day 6", y: 12 }
+    - { x: "Day 7", y: 4 }
+  styles:
+    line_color: "#2980B9"
+    marker: "dot"
+  annotations:
+    - { text: "120 T-shirts offered at 20% discount", pos: "top_left" }
+
+# QUESTION DATA
+question_data:
+  total_start: 120
+  discount: 0.20
+  daily_sales: [24, 20, 16, 28, 12, 8, 8] # derived
+  part_b_sold: 100 # 24+20+16+28+12
+  part_c_day3_revenue: 192
+  part_c_day3_sold: 16

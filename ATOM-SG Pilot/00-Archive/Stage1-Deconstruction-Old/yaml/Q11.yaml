@@ -1,0 +1,35 @@
+# Q11 Data from ACS Junior 2025 Page 27
+# Redone from scratch following Diagram Reconstruction Framework
+
+problem:
+  id: "Q11"
+  name: "Race Problem"
+  source: "ACS Junior 2025 Paper 2, Page 27"
+  question_text: |
+    Ray and Wayne ran in a race around a 400-m track. Ray ran at a speed of 195 m/min and Wayne at a speed that was 25 m/min slower than Ray throughout the race.
+    (a) How long would it take Ray to run a distance of 350 m more than Wayne?
+    (b) How many complete rounds would Ray have finished when the above happened?
+  answer_key:
+    a: "14 min"
+    b: "6 rounds"
+  pathway: "Relative Speed"
+
+# DIAGRAM DATA
+# Note: Original was text-only, but summary mentioned a diagram for Q9 (same problem content).
+# We will generate an exam-quality diagram as requested.
+diagram_data:
+  type: "circular_track"
+  track_length: "400 m"
+  elements:
+    - { type: "runner", label: "Ray", pos: "starting_line", speed: "195 m/min" }
+    - { type: "runner", label: "Wayne", pos: "slightly_behind", speed: "170 m/min" }
+  labels:
+    - { text: "Running", pos: "track_arrow", icon: "arrow" }
+
+# QUESTION DATA
+question_data:
+  ray_speed: 195
+  wayne_speed: 170
+  speed_diff: 25
+  target_diff: 350
+  total_time: 14

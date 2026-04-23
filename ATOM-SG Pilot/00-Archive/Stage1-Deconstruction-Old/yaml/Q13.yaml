@@ -1,0 +1,51 @@
+# Q13 Data from ACS Junior 2025 Page 29
+# Redone from scratch following Diagram Reconstruction Framework
+
+problem:
+  id: "Q13"
+  name: "Rhombus and Trapezium"
+  source: "ACS Junior 2025 Paper 2, Page 29"
+  question_text: |
+    In the figure, ABCD is a rhombus and ADEF is a trapezium. AF is parallel to DE.
+    (a) Find angle x.
+    (b) Find angle y.
+  answer_key:
+    x: 147
+    y: 84
+  pathway: "Geometry (Angle Chasing)"
+
+# DIAGRAM DATA
+diagram_data:
+  type: "geometry_composite"
+  vertices:
+    A: { pos: "bottom_junction" }
+    B: { pos: "left_rhombus" }
+    C: { pos: "top_rhombus" }
+    D: { pos: "right_rhombus" }
+    E: { pos: "far_right_trapezium" }
+    F: { pos: "top_trapezium" }
+    H: { pos: "extension_left" }
+    G: { pos: "intersection" }
+  shapes:
+    - { type: "rhombus", vertices: ["A", "B", "C", "D"], label: "ABCD" }
+    - { type: "trapezium", vertices: ["A", "D", "E", "F"], label: "ADEF" }
+  angles:
+    - { vertex: "F", value: 21, label: "21°" }
+    - { vertex: "C", value: 108, label: "108°" }
+    - { vertex: "A", type: "exterior", value: 33, label: "33°" } # verify 33 loc
+    - { vertex: "D", label: "x" }
+    - { vertex: "B", label: "y" }
+  parallel_markers:
+    - { line: "AF", type: "single_arrow" }
+    - { line: "DE", type: "single_arrow" }
+
+# QUESTION DATA
+question_data:
+  rhombus_properties: ["opp sides parallel", "opp angles equal", "all sides equal"]
+  trapezium_properties: ["one pair parallel sides"]
+  solution_steps:
+    - "x + 33 = 180 (linear pair)"
+    - "x = 147"
+    - "∠BAD + ∠ABC + ∠BCD + ∠ADC = 360"
+    - "21 + y + 108 + 147 = 360"
+    - "y = 84"

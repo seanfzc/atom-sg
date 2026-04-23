@@ -1,0 +1,20 @@
+# Ignore private/runtime data
+memory/
+state/
+.DS_Store
+
+# Ignore large source files (keep them in GitHub Cloud, not local git history)
+ATOM-SG Pilot/02-Exam-Vault/*.pdf
+
+# Ignore artifacts and generated outputs
+ATOM-SG Pilot/05-Backend/artifacts/
+ATOM-SG Pilot/05-Backend/playwright-tests/test-results/
+ATOM-SG Pilot/05-Backend/playwright-tests/playwright-report/
+
+# Ignore node_modules
+node_modules/
+**/node_modules/
+
+# Ignore temp files
+tmp/
+*.log

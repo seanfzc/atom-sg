@@ -1,0 +1,30 @@
+% TikZ template for vector diagrams
+% Requires LaTeX installation (basictex or texlive)
+\documentclass[tikz,border=2pt]{standalone}
+\usepackage{amsmath, amssymb}
+\usepackage{xcolor}
+
+% Pastel color palette
+\definecolor{pastelpink}{RGB}{255,182,193}
+\definecolor{pastelgreen}{RGB}{152,251,152}
+\definecolor{pastelblue}{RGB}{135,206,235}
+\definecolor{pastelyellow}{RGB}{255,215,0}
+\definecolor{pastelpurple}{RGB}{221,160,221}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=1.5cm,
+    box/.style={draw, thick, rounded corners, fill=white, minimum width=2cm, minimum height=1cm},
+    arrow/.style={->, >=stealth, thick}
+]
+
+% Example diagram – replace with dynamic content from problem card
+\node[box, fill=pastelpink] (A) {Part A};
+\node[box, fill=pastelgreen, right of=A] (B) {Part B};
+\draw[arrow] (A) -- (B) node[midway, above] {2:1 ratio};
+
+% Add title
+\node[above=0.5cm of A, font=\large\bfseries] {Bar Model Example};
+
+\end{tikzpicture}
+\end{document}

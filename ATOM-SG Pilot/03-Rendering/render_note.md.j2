@@ -1,0 +1,25 @@
+# Render {{ id }}
+
+**Title:** {{ title }}
+**Created:** {{ created }}
+**Diagram type:** {{ diagram_type }}
+**Format:** {{ render_format }}
+
+## Description
+{{ description }}
+
+## Data
+- Labels: {{ labels | join(', ') }}
+- Values: {{ values | join(', ') }}
+- Colors: {{ colors | join(', ') }}
+
+## Files
+- Diagram: [{{ id }}.svg]({{ id }}.svg)
+- Source problem card: [{{ id }}.yaml](../problem_cards/{{ id }}.yaml)
+- This render note: [{{ id }}.md]({{ id }}.md)
+
+## Notes
+{{ notes }}
+
+---
+*Rendered with Rendering Stack (Matplotlib)*

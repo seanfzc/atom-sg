@@ -1,0 +1,45 @@
+name: Send PDF Link via Telegram
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '05-Backend/artifacts/renders/baseline-v6-fixed/*.pdf'
+
+jobs:
+  send-pdf-link:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get PDF URL
+        id: get-pdf-url
+        run: |
+          PDF_URL="https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/05-Backend/artifacts/renders/baseline-v6-fixed/ATOM-SG_Baseline_Test_v6_FIXED.pdf"
+          echo "pdf_url=$PDF_URL" >> $GITHUB_OUTPUT
+          echo "PDF URL: $PDF_URL"
+
+      - name: Send Telegram Notification
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          message: |
+            📄 **ATOM-SG Baseline Test v6.0 FIXED**
+            
+            New PDF with corrected diagrams:
+            - Q15: Dimension line fixed (exact radius match)
+            - Q12: Added solvable constraints
+            - Q19: True 30° isometric projection
+            
+            🔗 **Download:** ${{ steps.get-pdf-url.outputs.pdf_url }}
+            
+            📊 File size: ~204 KB
+            🕐 Generated: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
+            
+            #ATOMSG #BaselineTest #Fixed
+          format: markdown
+
+      - name: Log Success
+        run: echo "✅ Telegram notification sent successfully"

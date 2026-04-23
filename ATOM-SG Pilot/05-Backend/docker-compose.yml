@@ -1,0 +1,50 @@
+# Docker Compose for ATOM-SG MVP Backend with Nginx reverse proxy
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    image: atom-sg-backend:latest
+    container_name: atom-sg-backend
+    expose:
+      - "5000"
+    environment:
+      - PORT=5000
+      - ARTIFACTS_DIR=/app/artifacts
+      - TESSERACT_CMD=/usr/bin/tesseract
+      - PYTHONUNBUFFERED=1
+      # Add other environment variables as needed
+    volumes:
+      - ./artifacts:/app/artifacts:rw
+      - ./logs:/app/logs:rw
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/v1/system/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: atom-sg-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    volumes:
+      - ./artifacts/renders:/usr/share/nginx/html/renders
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

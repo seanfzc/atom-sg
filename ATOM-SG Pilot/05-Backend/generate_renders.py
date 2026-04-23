@@ -1,0 +1,1 @@
+/Users/zcaeth/.openclaw/workspace/ATOM-SG Pilot/03-Rendering/generate_renders.py

@@ -1,0 +1,40 @@
+# Q7 Data from ACS Junior 2025 Page 24
+# Redone from scratch following Diagram Reconstruction Framework
+
+problem:
+  id: "Q7"
+  name: "Tank Filling Problem"
+  source: "ACS Junior 2025 Paper 2, Page 24"
+  question_text: "A rectangular tank measuring 80 cm by 60 cm by 50 cm was 2/3 full of water. Tap A can fill the empty tank in 8 minutes. How long did it take to fill the tank completely?"
+  answer_key: "2 min 40 s"
+  pathway: "Volume / Rate"
+
+# DIAGRAM DATA — ONLY what appears visually on the diagram
+# Following 04-renderer-rules.md: NO solutions or derived values
+diagram_data:
+  type: "rectangular_tank_3d"
+  perspective: "isometric_3_4" # View top, front, right
+  dimensions:
+    length: { value: 80, unit: "cm", label_pos: "bottom_front" }
+    width: { value: 60, unit: "cm", label_pos: "bottom_right" }
+    height: { value: 50, unit: "cm", label_pos: "right_vertical" }
+    unknown_height: { label: "?", pos: "left_vertical" }
+  water:
+    fraction_full: 0.666666
+    style: "stippled_fill"
+    label: "2/3 full"
+  elements:
+    - type: "tap"
+      label: "Tap A"
+      pos: "top_center"
+
+# QUESTION DATA — NEVER RENDERED ON DIAGRAM
+question_data:
+  total_volume: 240000 # 80 * 60 * 50
+  initial_water: 160000 # 2/3 of 240000
+  empty_volume: 80000
+  fill_rate: 30000 # 240000 / 8 min
+  solution_steps:
+    - "Remaining volume to fill = 1/3 of tank"
+    - "Time taken = 1/3 of 8 minutes = 8/3 minutes = 2 2/3 minutes"
+    - "2 2/3 min = 2 min 40 s"
