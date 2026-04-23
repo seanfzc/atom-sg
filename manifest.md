@@ -1,12 +1,12 @@
-# Task Manifest: smoke-test-q10
-**Branch:** dev/smoke-test-q10
-**Context Ref:** CONTEXT.md (Stage 0)
+# Task Manifest: stage1-q15-overlap
+**Branch:** dev/stage1-q15-overlap
+**Context Ref:** CONTEXT.md (Stage 1)
 
 ## 🔓 Access Control
 - **Allowed Files:**
-  - ATOM-SG Pilot/05-Backend/artifacts/renders/q10_reconstruction.*
-  - subagentcomms/smoke-test-q10.md
-  - ATOM-SG Pilot/01-Projects/Stage0_Q10_Audit.md
+  - ATOM-SG Pilot/05-Backend/artifacts/renders/q15_reconstruction.*
+  - subagentcomms/stage1-q15-overlap.md
+  - ATOM-SG Pilot/01-Projects/Stage1_Q15_Audit.md
 
 ## 🎯 Success Criterion
-- ACS Q10 (Line Graph) reconstructed and passes Vision LLM Solvability Test.
+- ACS Q15 (Composite Overlap) reconstructed and passes Vision LLM Solvability Test.
